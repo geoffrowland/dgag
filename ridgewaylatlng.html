@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />	
+	<title>Ridgeway Portland and Purbeck Quarries</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://unpkg.com/leaflet@1.5.0/dist/leaflet.js"
+    integrity="sha512-3Wcxp7F9bV2pl+MBgrL6Pz7AJASLpemmQPIiPA0lDs3ImF0z4JuuMIBPeirLbgIuhfH2gJyGWZjvm6M+Zr7L6Q=="
+    crossorigin=""></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="crossorigin="anonymous"></script>
+    <script src="L.TileLayer.BetterWMS.js"></script>
+    <script src="leaflet-bing-layer.js"></script>
+    <script src="leaflet-tilelayer-colorfilter.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
+    <script src="Leaflet.fullscreen.js"></script>
+    <script src="leaflet-fullHash.js"></script>
+    <link href="leaflet.fullscreen.css" rel="stylesheet" />
+    <script src="L.Control.MousePosition.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="L.Control.MousePosition.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="leaflet.zoomhome.css"/>
+    <script src="leaflet.zoomhome.js"></script>
+    <link rel="stylesheet" href="Control.OSMGeocoder.css" />
+    <script src="Control.OSMGeocoder.js"></script>
+    <script src="SY68exogyraBeds.js"></script>
+    <script src="dorsetParish.js"></script>
+	<style>
+		html, body { 
+	    	height: 100%; 
+	    	padding: 0; 
+	    	margin: 0; 
+	    }
+	    .leaflet-container {
+            background:#a9a9a9;
+        } 
+	</style>
+</head>
+<body>
+<div id="mapid" style="width: 100%; height: 100%;"></div>
+<script>
+
+	//var mapbox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+	//	maxZoom: 18,
+	//	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/" title="OpenStreetMap">OSM</a> contributors, ' +
+	//		'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+	//		'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+	//	id: 'mapbox.streets'
+	//});
+	
+	var blank = L.tileLayer('');
+	    
+    var hill2 = L.tileLayer('https://klokantech.github.io/dare-raster-tiles/hillshade/{z}/{x}/{y}.png', {
+	    transparent: true,
+	    opacity: 1.0,
+	    maxNativeZoom: 10,
+	    attribution: '&copy; <a target="_blank" href="https://www.openstreetmap.org/copyright" title="OpenStreetMap">OSM</a> contributors'
+    });
+    
+	var aerial = L.tileLayer.bing({
+		bingMapsKey: 'AohFvM_FD-p0478UuVC3ErCaoLzkJH_ftz_gGnSB9iUW_15xRgnZEf4cVkptGa7G',
+        imagerySet: 'Aerial',
+        culture: 'en_GB'
+	});
+	
+	var aerialWithLabels = L.tileLayer.bing({
+		bingMapsKey: 'AohFvM_FD-p0478UuVC3ErCaoLzkJH_ftz_gGnSB9iUW_15xRgnZEf4cVkptGa7G',
+        imagerySet: 'AerialWithLabels',
+        culture: 'en_GB'
+	});
+	
+	var road = L.tileLayer.bing({
+		bingMapsKey: 'AohFvM_FD-p0478UuVC3ErCaoLzkJH_ftz_gGnSB9iUW_15xRgnZEf4cVkptGa7G',
+        imagerySet: 'Road',
+        culture: 'en_GB'
+	});
+
+    var bgs50bed = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
+        layers: 'BGS.50k.Bedrock',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.5,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 13,
+        maxZoom: 18
+    });
+    var bgs50sup = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
+        layers: 'BGS.50k.Superficial.deposits',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.3,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 13,
+        maxZoom: 18
+    });
+    var bgs50mass = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
+        layers: 'BGS.50k.Mass.movement',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.5,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 13,
+        maxZoom: 18
+    });
+    var bgs50art = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
+        layers: 'BGS.50k.Artificial.ground',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.5,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 13,
+        maxZoom: 18
+    });
+    var bgs50lin = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
+        layers: 'BGS.50k.Linear.features',
+        transparent: true,
+        format: 'image/png',
+        opacity: 1.0,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 13,
+        maxZoom: 18
+    });
+		
+	var exogyra = L.geoJSON(exogyraBeds,{
+        onEachFeature: function(feature, layer) {
+		   layer.bindPopup(
+              'Bedrock: PORTLAND SAND FORMATION - LIMESTONE' +
+              '<br />Informal Division: CORTON HILL MEMBER (EXOGYRA BEDS OR SCAR CEMENTSTONE)' +
+              '<br />Age: TITHONIAN' +
+              '<br />Period: JURASSIC' +
+              '<br />Type: Sedimentary Bedrock' +
+              '<br />Description: Limestone' 
+            );
+        },		
+        "color": "#ffffff",
+        "weight": 1,
+        "opacity": 0.3,
+        "fillOpacity": 0.3	
+	});
+
+    var bgs50 = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
+        layers: 'BGS.50k.Superficial.deposits,BGS.50k.Mass.movement,BGS.50k.Artificial.ground,BGS.50k.Linear.features',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.5,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 13,
+        maxZoom: 18
+    });
+      
+    var bgs625 = L.tileLayer.betterWms('http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms', {
+        layers: 'GBR_BGS_625k_BLS,GBR_BGS_625k_SLS',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.5,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 0,
+        maxZoom: 12
+    });
+    
+    var bgs625bed = L.tileLayer.betterWms('http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms', {
+        layers: 'GBR_BGS_625k_BLS',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.5,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 0,
+        maxZoom: 12
+    });
+
+    var bgs625sup = L.tileLayer.betterWms('http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms', {
+        layers: 'GBR_BGS_625k_SLS',
+        transparent: true,
+        format: 'image/png',
+        opacity: 0.3,
+        info_format: 'text/html',
+        identify: true,
+        minZoom: 0,
+        maxZoom: 12
+    });
+      
+    var geolbed = L.layerGroup([bgs625bed, bgs50bed, exogyra], {
+		attribution: 'Contains <a target="_blank" href = "https://www.bgs.ac.uk/data/services/wms.html" title="British Geological Survey">BGS</a> materials © UKRI 2019'
+	});
+	
+    var geolsup = L.layerGroup([bgs625sup, bgs50sup], {
+		attribution: 'Contains <a target="_blank" href = "https://www.bgs.ac.uk/data/services/wms.html" title="British Geological Survey">BGS</a> materials © UKRI 2019'
+	});
+      
+    var geol = L.layerGroup([bgs625, bgs50bed, exogyra, bgs50], {
+		attribution: 'Contains <a target="_blank" href = "https://www.bgs.ac.uk/data/services/wms.html" title="British Geological Survey">BGS</a> materials © UKRI 2019'
+	});
+	
+	var dtm2 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dtm-2m/wms?', {
+		layers: 'LIDAR_Composite_DTM_2m',
+        format: 'image/png',
+        transparent: true,
+        opacity:1.0,
+        minZoom: 14,
+        filter: ['grayscale:100%']
+	});
+	
+	var dtm1 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dtm-1m/wms?', {
+		layers: 'LIDAR_Composite_DTM_1m',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 15,
+        filter: ['grayscale:100%']
+	});
+	
+	var dtm50 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dtm-50cm/wms?', {
+		layers: 'LIDAR_Composite_DTM_50cm',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 16,
+        filter: ['grayscale:100%']
+	});
+
+	var dtm25 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dtm-25cm/wms?', {
+		layers: 'LIDAR_Composite_DTM_25cm',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 17,
+        filter: ['grayscale:100%']
+	});
+	
+	var dsm2 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dsm-2m/wms?', {
+		layers: 'LIDAR_Composite_DSM_2m',
+        format: 'image/png',
+        transparent: true,
+        opacity:1.0,
+        minZoom: 13,
+        filter: ['grayscale:100%']
+	});
+	
+	var dsm1 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dsm-1m/wms?', {
+		layers: 'LIDAR_Composite_DSM_1m',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 14,
+        filter: ['grayscale:100%']
+	});
+	
+	var dsm50 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dsm-50cm/wms?', {
+		layers: 'LIDAR_Composite_DSM_50cm',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 15,
+        filter: ['grayscale:100%']
+	});
+
+	var dsm25 = L.tileLayer.wms.colorFilter('https://environment.data.gov.uk/spatialdata/lidar-composite-digital-surface-model-dsm-25cm/wms?', {
+		layers: 'LIDAR_Composite_DSM_25cm',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 16,
+        filter: ['grayscale:100%']
+	});
+		
+	var terraindtm = L.layerGroup([hill2, dtm2, dtm1, dtm50, dtm25],{
+		attribution: '<a target="_blank" href="https://land.copernicus.eu/imagery-in-situ/eu-dem" title="Digital Elevation Model over Europe">EU-DEM</a> produced using Copernicus data and information funded by the EU. <a target="_blank" href="https://data.gov.uk/search?q=LIDAR+Composite+DTM">LIDAR Composite DTM</a> © EA copyright and/or database right 2019 All rights reserved'
+	});
+	
+	/*var terraindsm = L.layerGroup([blank, hill2, dsm2, dsm1, dsm50, dsm25]);*/
+	
+	var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4,
+        maxZoom: 11
+	});
+		
+	var bingos = L.tileLayer.bing({
+		bingMapsKey: 'AohFvM_FD-p0478UuVC3ErCaoLzkJH_ftz_gGnSB9iUW_15xRgnZEf4cVkptGa7G',
+        imagerySet: 'OrdnanceSurvey',
+        culture: 'en_GB',
+        opacity: 0.5,
+        minZoom: 12,
+        maxNativeZoom: 17
+	});
+
+	var os = L.layerGroup([opendata, bingos]);	
+	
+	var holes = L.tileLayer('https://geo.nls.uk/mapdata3/os/25_inch/holes_england/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4
+	});
+	
+	var dorset = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/dorset/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4
+	});
+	
+	var devon = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/devon/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4
+	});
+	
+	var hampshire = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/hampshire/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4
+	});
+	
+	var somerset = L.tileLayer('https://geo.nls.uk/mapdata3/os/25_inch/somerset/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4
+	});
+	
+	var wiltshire = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/wiltshire/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4
+	});
+	
+	var county = L.layerGroup([holes, dorset, devon, hampshire, somerset, wiltshire],{
+		attribution: 'Historic (1890s-1920s) OS maps © <a target = "_blank" href="https://maps.nls.uk/" title="National Library of Scotland">NLS</a>'
+    });
+	
+	var holesbase = L.tileLayer('https://geo.nls.uk/mapdata3/os/25_inch/holes_england/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        minZoom: 4
+	});
+	
+	var dorsetbase = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/dorset/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        minZoom: 4
+	});
+	
+	var devonbase = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/devon/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        minZoom: 4
+	});
+	
+	var hampshirebase = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/hampshire/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        minZoom: 4
+	});
+	
+	var somersetbase = L.tileLayer('https://geo.nls.uk/mapdata3/os/25_inch/somerset/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        minZoom: 4
+	});
+	
+	var wiltshirebase = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/wiltshire/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        minZoom: 4
+	});
+	
+	var countybase = L.layerGroup([holesbase, dorsetbase, devonbase, hampshirebase, somersetbase, wiltshirebase]);
+    
+    var parish = L.geoJSON(dorsetParish,{
+        onEachFeature: function(feature, layer) {
+            layer.bindPopup(feature.properties.NAME
+            );
+        },		
+        "color": "#330000",
+        "weight": 2,
+        "opacity": 0.2,
+        "fillOpacity": 0		
+	});
+
+    var blueIcon = L.icon({
+	    iconUrl: 'img/marker-icon-2x-blue.png',
+	    shadowUrl: 'img/marker-shadow.png',
+	    iconSize: [25, 41],
+	    iconAnchor: [12, 41],
+	    popupAnchor: [1, -34],
+	    shadowSize: [41, 41]
+    });	
+    var redIcon = L.icon({
+	    iconUrl: 'img/marker-icon-2x-red.png',
+	    shadowUrl: 'img/marker-shadow.png',
+	    iconSize: [25, 41],
+	    iconAnchor: [12, 41],
+	    popupAnchor: [1, -34],
+	    shadowSize: [41, 41]
+    });
+
+    var greenIcon = L.icon({
+	    iconUrl: 'img/marker-icon-2x-green.png',
+	    shadowUrl: 'img/marker-shadow.png',
+	    iconSize: [25, 41],
+	    iconAnchor: [12, 41],
+	    popupAnchor: [1, -34],
+	    shadowSize: [41, 41]
+    });
+  
+    var ridgewayData = L.geoJson(null, {
+		pointToLayer: function (feature, latlng) {
+			if (feature.properties.Type == 'Kiln'){
+			    return L.marker(latlng, {icon: redIcon})
+			}else if(feature.properties.Type == 'Chalk'){
+				return L.marker(latlng, {icon: greenIcon})
+			}else{
+				return L.marker(latlng, {icon: blueIcon})
+			}
+        },
+        onEachFeature: function(feature, layer) {
+			layer.bindTooltip(
+			    feature.properties.Locality
+			);
+            layer.bindPopup(
+            'Site: ' + feature.properties.ID + ' ' + feature.properties.Locality +
+            '<br />Parish: ' + feature.properties.Parish + 
+            '<br />Grid Ref: ' + feature.properties.GridRef + 
+            '<br />Group: ' + feature.properties.Group +
+            '<br />Formation: ' + feature.properties.Formation +
+            '<br />Member: ' + feature.properties.Member +
+            '<br />1880s: ' + feature.properties.First +
+            '<br />1900s: ' + feature.properties.Second +
+            '<br />1920s: ' + feature.properties.Third +
+            '<br />1950s: ' + feature.properties.New +
+            '<br />LIDAR: ' + feature.properties.LIDAR +
+            '<br />Reference: ' + feature.properties.Reference +
+            '<br />Notes: ' + feature.properties.Notes
+            //'<br />Lat Long: ' +  layer.latlng
+            );
+        }
+    });
+    
+	var map = L.map('mapid', {
+		center: [50.660, -2.447],
+		zoom: 13,
+		zoomControl: false,
+		layers: [terraindtm, geolbed],
+		fullscreenControl: true
+	});
+	
+	var ridgeway = omnivore.csv('ridgewayportlandpurbeck.csv', null, ridgewayData)
+        .on('ready', function() {
+    }).addTo(map);
+    
+    bgs50lin.addTo(map);
+	
+    var baseLayers = {
+		"Terrain": terraindtm,
+		//"Terrain DSM": terraindsm,
+		//"Mapbox": mapbox,
+		"Aerial": aerial,
+		"Aerial with Labels": aerialWithLabels,
+		"Road": road,
+		"Blank": blank
+	};
+
+	var overlays = {
+		"OS Current": os,
+		"OS Historic": county,
+		//"Geology": geol,
+		"Geology Bedrock": geolbed,
+		"Geology Surface": geolsup,
+		"Geology Landslip": bgs50mass,
+		"Geology Artificial": bgs50art,
+		"Geology Linear": bgs50lin,
+		"Parish": parish,
+		"Sites": ridgeway
+	};
+	
+    var allMapLayers = { 
+		'blank': blank,
+		//'mapbox': mapbox,
+		'aerial': aerial,
+		'aerialWithLabels': aerialWithLabels,
+		'road': road,
+		'terraindtm': terraindtm,
+		//'terraindsm': terraindsm,
+		'os': os,
+		'county': county,
+		//'geol': geol,
+		'bgs50bed': bgs50bed,
+		'bgs50sup': bgs50sup,
+		'bgs50mass': bgs50mass,
+		'bgs50art': bgs50art,
+		'bgs50lin': bgs50lin,
+		'parish': parish,
+		'ridgeway': ridgeway
+	};
+	
+    var osmGeocoder = new L.Control.OSMGeocoder();
+    map.addControl(osmGeocoder);
+    //L.Control.OSMGeocoder().addTo(map);
+	L.control.layers(baseLayers, overlays).addTo(map);
+	var zoomHome = L.Control.zoomHome();
+    zoomHome.addTo(map);
+	L.control.scale().addTo(map);
+    L.control.mousePosition({
+		lngFirst:true,
+		prefix:'Lng-Lat: ',
+		position:'bottomright'
+	}).addTo(map);
+	L.hash(map, allMapLayers);
+
+</script>
+
+</body>
+</html>
