@@ -33,6 +33,12 @@
     <script src="dorsetParish.js"></script>
     <script src="faultsUK.js"></script>
     <script src="dykesUK.js"></script>
+    <link rel="stylesheet" href="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.css" />
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.css" />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/mapbox-gl-leaflet/leaflet-mapbox-gl.js"></script>
+    <script src="contours.js"></script>
+    <script src="water.js"></script>
 	<style>
 		html, body { 
 	    	height: 100%; 
@@ -52,7 +58,9 @@
 	var BING_KEY = 'AohFvM_FD-p0478UuVC3ErCaoLzkJH_ftz_gGnSB9iUW_15xRgnZEf4cVkptGa7G'; //My
     //var BING_KEY = 'AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L'; //Plugin default
     //////////////////////////////////////////////////
-    
+    var apiKey = 'AAPGGZnt29YGEZIJk7DAvy4vwHiUXDC7';
+    var apiKeyVector = '8ZHfw8XcfS9fiUTxROr3MixGDTnqKm4U';
+    var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
 	var blank = L.tileLayer('');
     var hill25 = L.tileLayer('https://geoffrowland.github.io/Hillshade-25m/{z}/{x}/{y}.png', {
 		tms: true,
@@ -82,11 +90,8 @@
         imagerySet: 'AerialWithLabels',
         culture: 'en_GB'
 	});
-	var road = L.tileLayer.bing({
-		bingMapsKey: BING_KEY,
-        imagerySet: 'Road',
-        culture: 'en_GB'
-	});
+    var road = L.tileLayer(serviceUrl + '/Road_3857/{z}/{x}/{y}.png?key=' + apiKey, { maxNativeZoom:16, maxZoom: 18 });
+    var road_overlay = L.tileLayer(serviceUrl + '/Road_3857/{z}/{x}/{y}.png?key=' + apiKey, { opacity:0.5, maxNativeZoom:16, maxZoom: 18 });
     var bgs50bed = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
         layers: 'BGS.50k.Bedrock',
         transparent: true,
@@ -357,7 +362,13 @@
         maxNativeZoom: 17
 	});
 	var os = L.layerGroup([opendata, bingos]);
-
+	var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
+		format: 'image/png',
+        transparent: true,
+        opacity: 0.5,
+        minZoom: 4,
+        maxZoom: 11
+	});
 	var opendataonly = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
 		format: 'image/png',
         transparent: true,
@@ -568,6 +579,35 @@
 		layers: [terraindtm, geobed],
 		fullscreenControl: true,
 	});
+	    map.createPane('ontop');
+    map.createPane('onverytop');
+    map.getPane('ontop').style.zIndex = 450;
+    map.getPane('onverytop').style.zIndex = 451;
+    map.getPane('ontop').style.pointerEvents = 'none';
+    map.getPane('onverytop').style.pointerEvents = 'none'
+    // Load and display vector tile layer on the map.
+    var gl = L.mapboxGL({
+        style: customStyleJson,
+        pane: 'ontop',
+        transformRequest: url => {
+            if(! /[?&]key=/.test(url) ) url += '?key=' + apiKeyVector
+            return {
+                url: url + '&srs=3857'
+            }
+        }
+    });
+    
+    // Load and display vector tile layer on the map.
+    var gl1 = L.mapboxGL({
+        style: customStyleJson1,
+        pane: 'onverytop',
+        transformRequest: url => {
+            if(! /[?&]key=/.test(url) ) url += '?key=' + apiKeyVector
+            return {
+                url: url + '&srs=3857'
+            }
+        }
+    });
     map.attributionControl.addAttribution('<a target="_blank" title="Open Source Geospatial Foundation" href="https://www.osgeo.org/">OSGeo</a> <a target="_blank" href="https://gdal.org/">GDAL</a>, <a target="_blank">QGIS</a>, &copy; Geoff Rowland copyright and database rights 2020');
 	map.attributionControl.addAttribution('EDINA <a href="https://digimap.edina.ac.uk/" target="_blank">Digimap</a>');
 	
@@ -631,15 +671,16 @@
     });
     var baseLayers = {
 		"<span title = 'Hillshade Digital Terrain Model'>Hillshade</span>": terraindtm,
-		"<span title = 'Bing Maps Aerial'>Aerial</span>": aerial,
-		"<span title = 'Bing Maps OS Current'>OS Current</span>": osbase,
 		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
+		"<span title = 'OS Open Data Road'>OS Road</span>": road,
+		"<span title = 'Bing Maps OS Current'>OS Current</span>": osbase,
+		"<span title = 'Bing Maps Aerial'>Aerial</span>": aerial,
 		"<span title = 'Blank'>Blank</span>": blank
 	};
 	var overlays = {
 		"<span title = 'Bing Maps Aerial'>Aerial</span>": aerialtransp,
 		"<span title = 'Bing Maps OS Current'>OS Current</span>": os,
-		"<span title = 'OS OpenData'>OS OpenData</span>": opendataonly,
+		"<span title = 'OS Open Data Road'>OS Road</span>": road_overlay,
 		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
 		"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
 		"<span title = 'OS Second Edition 25 inch ~1900'>OS Dorset ~1900</span>": dorset1900,
@@ -648,6 +689,8 @@
 		"<span title = 'BGS Geology Mass Movement'>Geology Landslip</span>": bgs50mass,
 		"<span title = 'BGS Geology Made Up Ground'>Geology Artificial</span>": bgs50art,
 		"<span title = 'BGS Geology Linear Features'>Geology Linear</span>": geolin,
+		"<span title = 'OS Contours'>Contours</span>": gl,
+		"<span title = 'OS Water'>Water</span>": gl1,
 		"<span title = 'Parish outlines'>Parish</span>": parish,
 		//"<span title = 'Sites'>Site</span>": site,
 		"<span title = 'Drawing tools'>Draw</span>": drawnItems
