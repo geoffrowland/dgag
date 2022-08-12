@@ -222,7 +222,7 @@
         maxNativeZoom: 15,
 		attribution: '&copy <a title="Environment Agency LiDAR DTM" target="_blank" href="https://environment.data.gov.uk/DefraDataDownload/?Mode=survey">EA</a> copyright and database right 2020'
 	});
-	var hill1c = L.tileLayer('https://geoffrowland.github.io/Hillshade-1m-Cornwall/{z}/{x}/{y}.png', {
+	var hill1cw = L.tileLayer('https://geoffrowland.github.io/Hillshade-1m-Cornwall-West/{z}/{x}/{y}.png', {
 		tms: true,
         format: 'image/png',
         transparent: true,
@@ -233,7 +233,30 @@
         //bounds: L.latLngBounds([[50.36, -3.86719],[51.48, -3.51563]]),
         attribution: '&copy <a title="Environment Agency LiDAR DTM" target="_blank" href="https://environment.data.gov.uk/DefraDataDownload/?Mode=survey">EA</a> copyright and database right 2020'
 	});
-	var hill1d = L.tileLayer('https://geoffrowland.github.io/Hillshade-1m-Devon/{z}/{x}/{y}.png', {
+	var hill1ce = L.tileLayer('https://geoffrowland.github.io/Hillshade-1m-Cornwall-East/{z}/{x}/{y}.png', {
+		tms: true,
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 13,
+        maxNativeZoom: 16,
+        maxZoom: 24, 
+        //bounds: L.latLngBounds([[50.36, -3.86719],[51.48, -3.51563]]),
+        attribution: '&copy <a title="Environment Agency LiDAR DTM" target="_blank" href="https://environment.data.gov.uk/DefraDataDownload/?Mode=survey">EA</a> copyright and database right 2020'
+	});
+	var hill1dw = L.tileLayer('https://geoffrowland.github.io/Hillshade-1m-Devon-West/{z}/{x}/{y}.png', {
+		tms: true,
+		//layers: 'LIDAR_Composite_DTM_1m',
+        format: 'image/png',
+        transparent: true,
+        opacity: 1.0,
+        minZoom: 13,
+        maxNativeZoom: 16,
+        maxZoom: 24, 
+        bounds: L.latLngBounds([[50.36, -3.86719],[51.48, -3.51563]]),
+        attribution: '&copy <a title="Environment Agency LiDAR DTM" target="_blank" href="https://environment.data.gov.uk/DefraDataDownload/?Mode=survey">EA</a> copyright and database right 2020'
+	});
+	var hill1de = L.tileLayer('https://geoffrowland.github.io/Hillshade-1m-Devon-East/{z}/{x}/{y}.png', {
 		tms: true,
 		//layers: 'LIDAR_Composite_DTM_1m',
         format: 'image/png',
@@ -319,7 +342,7 @@
         maxZoom: 24        
 	});
 	
-	var terraindtm = L.layerGroup([hill25, hill5, hill2surf, hill2, hill1c, hill1d, hill1dds, hill1ds, hill1dse, hill1dh, hill50e, hill50w, hillkeatesgrey],{
+	var terraindtm = L.layerGroup([hill25, hill2surf, hill1cw, hill1ce, hill1dw, hill1de, hill1dds, hill1ds, hill1dse, hill1dh, hill50e, hill50w, hillkeatesgrey],{
 		attribution: '&copy <a title="Environment Agency LiDAR DTM" target="_blank" href="https://environment.data.gov.uk/DefraDataDownload/?Mode=survey">EA</a> copyright and database right 2020'
 	});
     var osmbase = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
