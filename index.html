@@ -487,13 +487,13 @@
 	maxNativeZoom: 18,
         bounds: L.latLngBounds([[50.51, -2.97],[51.09, -1.80]])
 	});
-	var dorsetholes = L.tileLayer('https://geo.nls.uk/mapdata3/os/25_inch/holes_england/{z}/{x}/{y}.png', {
+	var dorsetholes = L.tileLayer('https://mapseries-tilesets.s3.amazonaws.com/25_inch/25_inch_holes_england/{z}/{x}/{y}.png', {
 		format: 'image/png',
         transparent: true,
         opacity: 0.5,
         minZoom: 11,
 	maxNativeZoom: 18,
-        bounds: L.latLngBounds([[50.51, -2.96],[51.09, -1.79]])
+        bounds: L.latLngBounds([[50.51, -2.97],[51.09, -1.80]])
 	});
     var dorset1900 = L.layerGroup([dorsetholes, dorset],{
 		attribution: 'Historic OS maps © <a target = "_blank" href="https://maps.nls.uk/" title="National Library of Scotland">NLS</a>'
