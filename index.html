@@ -479,13 +479,13 @@
 		attribution: '© Crown Copyright and Landmark Information Group Limited 2020. All rights reserved. 1860-88'
         });
 	
-	var dorset = L.tileLayer('https://geo.nls.uk/mapdata2/os/25_inch/dorset/{z}/{x}/{y}.png', {
+	var dorset = L.tileLayer('https://mapseries-tilesets.s3.amazonaws.com/25_inch/dorset/{z}/{x}/{y}.png', {
 		format: 'image/png',
         transparent: true,
         opacity: 0.5,
         minZoom: 11,
 	maxNativeZoom: 18,
-        bounds: L.latLngBounds([[50.51, -2.96],[51.09, -1.79]])
+        bounds: L.latLngBounds([[50.51, -2.97],[51.09, -1.80]])
 	});
 	var dorsetholes = L.tileLayer('https://geo.nls.uk/mapdata3/os/25_inch/holes_england/{z}/{x}/{y}.png', {
 		format: 'image/png',
