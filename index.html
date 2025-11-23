@@ -692,8 +692,8 @@
 	    'drawnItems': drawnItems
 	};
     var osmGeocoder = new L.Control.OSMGeocoder();
-    //map.addControl(osmGeocoder);
-    L.Control.OSMGeocoder().addTo(map);
+    map.addControl(osmGeocoder);
+    //L.Control.OSMGeocoder().addTo(map);
 	L.control.layers(baseLayers, overlays).addTo(map);
 	var zoomHome = L.Control.zoomHome();
     zoomHome.addTo(map);
