@@ -381,9 +381,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
             sett1 = sett1[0].toUpperCase() + sett1.slice(1);			
 			sett1 = '<br/>Setting: ' + sett1
 		};
-        sett2 = bedrock[1].split(";")[50];
+        sett2 = bedrock[1].split(";")[85];
         if (sett2 == 'Null'){sett2 = ''};
-        detail = bedrock[1].split(";")[51];
+        detail = bedrock[1].split(";")[86];
         if (detail != '') {detail = '<br/>Detail: ' + detail};
         bedrockcontent =  name + age + period + type + desc + sett1 + ' ' + sett2 + detail + '<br/><br/>Locaton: ' + bngString + '<br/>';
      };
