@@ -201,8 +201,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         age2 = bedrock[1].split(";")[54];
         if (age1 == age2) {age = age1} else {age = age1 + ' to ' + age2};
         
-        period1 = bedrock[1].split(";")[45];
-        period2 = bedrock[1].split(";")[46];
+        period1 = bedrock[1].split(";")[60];
+        period2 = bedrock[1].split(";")[61];
         if (period1 == period2) {period = period1} else {period = period1 + ' to ' + period2};
         name = bedrock[1].split(";")[66];
         type = bedrock[1].split(";")[69];
