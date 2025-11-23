@@ -379,7 +379,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	if (subgroup == 'Not Applicable') {subgroup = ''};
 	if (subgroup == 'No Parent') {subgroup = ''};
 	if (subgroup != '') {subgroup = '<br/>' + subgroup};
-	if (group == name ) {group = ''};	
+	if (group == name ) {group = ''};
+	if (group == 'Not Applicable') {group = ''};
+	if (group == 'No Parent') {group = ''};
 	if (group != '') {group = '<br/>' + group};
 	if (supergroup == 'Not Applicable') {supergroup = ''};		
 	if (supergroup == 'No Parent') {supergroup = ''};
