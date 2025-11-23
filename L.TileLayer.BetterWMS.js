@@ -368,7 +368,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	if (name == 'EXE BRECCIA FORMATION - BRECCIA') {name = name + '<br />EXETER GROUP<br />NEW RED SANDSTONE SUPERGROUP'; age = 'WORDIAN'; period = 'PERMIAN'};
 //	if (name == '') {name = ''; age = ''; period = ''};
 //	    
-        if (name != '') {name = 'Bedrock: ' + name};
+    if (name != '') {name = 'Bedrock: ' + name};
 	if (age != '') {age = '<br/>Age: ' + age}; 
 	if (period != '') {period = '<br/>Period: ' + period}; 
 	desc = bedrock[1].split(";")[48];
