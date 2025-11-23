@@ -205,7 +205,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         period2 = bedrock[1].split(";")[46];
         if (period1 == period2) {period = period1} else {period = period1 + ' to ' + period2};
         name = bedrock[1].split(";")[66];
-        type = bedrock[1].split(";")[47];
+        type = bedrock[1].split(";")[69];
         if (type != '') {
 		type = type[0].toUpperCase() + type.slice(1);
 		type = '<br/>Type: ' + type
