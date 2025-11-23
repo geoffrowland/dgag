@@ -389,7 +389,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         if (sett2 == 'Null'){sett2 = ''};
         detail = bedrock[1].split(";")[85];
         if (detail != '') {detail = '<br/>Detail: ' + detail};
-        bedrockcontent =  name + age + formation + group + period + type + desc + sett1 + ' ' + sett2 + detail + '<br/><br/>Locaton: ' + bngString + '<br/>';
+        bedrockcontent =  name + formation + group + age + period + type + desc + sett1 + ' ' + sett2 + detail + '<br/><br/>Locaton: ' + bngString + '<br/>';
      };
     linearcontent = '';
     linear = content.split('@BGS.50k.Linear.features');
