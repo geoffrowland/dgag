@@ -206,7 +206,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         if (period1 == period2) {period = period1} else {period = period1 + ' to ' + period2};
         name = bedrock[1].split(";")[66];
 		formation = bedrock[1].split(";")[74];
+		subgroup = bedrock[1].split(";")[75];
 		group = bedrock[1].split(";")[76];
+		supergroup = bedrock[1].split(";")[77];
         type = bedrock[1].split(";")[62];
         if (type != '') {
 		type = type[0].toUpperCase() + type.slice(1);
@@ -372,7 +374,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 //
     if (formation == name ) {formation = ''};
 	if (formation != '') {formation = '<br/>' + formation};
+	if (subgroup != '') {subgroup = '<br/>' + subgroup};
 	if (group != '') {group = '<br/>' + group};
+	if (supergroup != '') {supergroup = '<br/>' + supergroup};
 	if (age != '') {age = '<br/><br/>Age: ' + age}; 
 	if (period != '') {period = '<br/>Period: ' + period}; 
 	desc = bedrock[1].split(";")[63];
@@ -389,7 +393,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         if (sett2 == 'Null') {sett2 = ''};
         detail = bedrock[1].split(";")[85];
         if (detail != '') {detail = '<br/>Detail: ' + detail};
-        bedrockcontent =  name + formation + group + age + period + type + desc + sett1 + ' ' + sett2 + detail + '<br/><br/>Locaton: ' + bngString + '<br/>';
+        bedrockcontent =  name + formation + subgroup + group + supergroup + age + period + type + desc + sett1 + ' ' + sett2 + detail + '<br/><br/>Locaton: ' + bngString + '<br/>';
      };
     linearcontent = '';
     linear = content.split('@BGS.50k.Linear.features');
