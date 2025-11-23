@@ -371,9 +371,6 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 //	if (name == '') {name = ''; age = ''; per if (name != '') {name = 'Bedrock: ' + name};iod = ''};
 //
     if (formation == name ) {formation = ''};
-	)
-    if (name != '') {name = name};
-		
 	if (formation != '') {formation = '<br/>' + formation};
 	if (group != '') {group = '<br/>' + group};
 	if (age != '') {age = '<br/><br/>Age: ' + age}; 
@@ -389,7 +386,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			sett1 = '<br/>Setting: ' + sett1
 		};
         sett2 = bedrock[1].split(";")[84];
-        if (sett2 == 'Null'){sett2 = ''};
+        if (sett2 == 'Null') {sett2 = ''};
         detail = bedrock[1].split(";")[85];
         if (detail != '') {detail = '<br/>Detail: ' + detail};
         bedrockcontent =  name + formation + group + age + period + type + desc + sett1 + ' ' + sett2 + detail + '<br/><br/>Locaton: ' + bngString + '<br/>';
