@@ -618,7 +618,7 @@
         drawnItems.addLayer(layer);
     });
 	
-    var site = omnivore.csv('site.csv', null, siteData).on('ready', function() {}).addTo(map);
+    //var site = omnivore.csv('site.csv', null, siteData).on('ready', function() {}).addTo(map);
 	
     var geolin = L.layerGroup([faults, dykes, bgs50lin], {
 		attribution: '<a target="_blank" href = "https://www.bgs.ac.uk/data/services/wms.html" title="British Geological Survey">BGS</a> maps © UKRI 2020'
@@ -659,7 +659,7 @@
 		"<span title = 'OS Contours'>Contours</span>": gl,
 		"<span title = 'OS Water'>Water</span>": gl1,
 		"<span title = 'Parish outlines'>Parish</span>": parish,
-		"<span title = 'Sites'>Site</span>": site,
+		//"<span title = 'Sites'>Site</span>": site,
 		"<span title = 'Drawing tools'>Draw</span>": drawnItems
 	};
     var allMapLayers = { 
@@ -677,15 +677,15 @@
 		'bgs50art': bgs50art,
 		'geolin': geolin,
 		'parish': parish,
-		'site': site,
+		//'site': site,
 	    'drawnItems': drawnItems
 	};
     //var osmGeocoder = new L.Control.OSMGeocoder();
    // map.addControl(osmGeocoder);
     //L.Control.OSMGeocoder().addTo(map);
 	L.control.layers(baseLayers, overlays).addTo(map);
-	//var zoomHome = L.Control.zoomHome();
-    //zoomHome.addTo(map);
+	var zoomHome = L.Control.zoomHome();
+    zoomHome.addTo(map);
 	L.control.scale().addTo(map);
     L.control.mousePosition({
 		lngFirst:true,
