@@ -340,26 +340,12 @@
 		attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		opacity: 0.5
 	});
-	var opendatabase = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
-		format: 'image/png',
-        transparent: true,
-        opacity: 1.0,
-        minZoom: 4,
-        maxZoom: 11
-	});
 	var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
 		format: 'image/png',
         transparent: true,
         opacity: 0.5,
         minZoom: 4,
         maxZoom: 11
-	});
-	var opendataonly = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
-		format: 'image/png',
-        transparent: true,
-        opacity: 0.5,
-        minZoom: 4,
-        maxNativeZoom: 17
 	});
 	var dorset1 = L.tileLayer('https://geoffrowland.github.io/OS-First-Dorset-1/{z}/{x}/{y}.png', {
 		tms: true,
@@ -564,7 +550,7 @@
 		layers: [terraindtm, geobed],
 		fullscreenControl: true,
 	});
-	    map.createPane('ontop');
+	map.createPane('ontop');
     map.createPane('onverytop');
     map.getPane('ontop').style.zIndex = 450;
     map.getPane('onverytop').style.zIndex = 451;
@@ -656,13 +642,13 @@
     });
     var baseLayers = {
 		"<span title = 'Hillshade Digital Terrain Model'>Hillshade</span>": terraindtm,
-		//"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
+		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road,
 		"<span title = 'Blank'>Blank</span>": blank
 	};
 	var overlays = {
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road_overlay,
-		//"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
+		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
 		"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
 		"<span title = 'OS Second Edition 25 inch ~1900'>OS Dorset ~1900</span>": dorset1900,
 		"<span title = 'BGS Geology Bedrock'>Geology Bedrock</span>": geobed,
@@ -682,7 +668,7 @@
 		//'opendataonly': opendataonly,
 		'osm': osm,
 		'osmbase': osmbase,
-	    	'dorset1880': dorset1880,
+	    'dorset1880': dorset1880,
 		'dorset1900': dorset1900,
 		'aerialtransp': aerialtransp,
 		'geobed': geobed,
