@@ -686,12 +686,12 @@
 	L.control.layers(baseLayers, overlays).addTo(map);
 	//var zoomHome = L.Control.zoomHome();
     //zoomHome.addTo(map);
-	//L.control.scale().addTo(map);
-    //L.control.mousePosition({
-	//	lngFirst:true,
-	//	prefix:'Lng-Lat: ',
-	//	position:'bottomright'
-	//}).addTo(map);
+	L.control.scale().addTo(map);
+    L.control.mousePosition({
+		lngFirst:true,
+		prefix:'Lng-Lat: ',
+		position:'bottomright'
+	}).addTo(map);
 	//L.hash(map, allMapLayers);
 </script>
 </body>
