@@ -66,6 +66,13 @@
 	    attribution: '&copy; <a href="https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1" title ="EU-DEM v1.1 Copernicus Programme" target="_blank" >Copernicus</a> 2016',
 
     });
+	var google - L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            attribution: 'Google Maps'
+	});
+	var google_overlay- L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+		    opacity: 0.5.
+            attribution: 'Google Maps'
+	});				
     var road = L.tileLayer(serviceUrl + '/Road_3857/{z}/{x}/{y}.png?key=' + apiKey, { maxNativeZoom:16, maxZoom: 18 });
     var road_overlay = L.tileLayer(serviceUrl + '/Road_3857/{z}/{x}/{y}.png?key=' + apiKey, { opacity:0.5, maxNativeZoom:16, maxZoom: 18 });
     var bgs50bed = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
@@ -642,11 +649,13 @@
     });
     var baseLayers = {
 		"<span title = 'Hillshade Digital Terrain Model'>Hillshade</span>": terraindtm,
+		"<span title = 'Google Maps'>Google Maps</span>": google,
 		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road,
 		"<span title = 'Blank'>Blank</span>": blank
 	};
 	var overlays = {
+		"<span title = 'Google Maps'>Google Maps</span>": google_overlay,
 		"<span title = 'OS Open Data Road'>OS Road</span>": road_overlay,
 		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
 		"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
@@ -664,7 +673,9 @@
 	};
     var allMapLayers = { 
 		'terraindtm': terraindtm,
-		'blank': blank,		
+		'blank': blank,
+		'goodle': google,
+		'google_overlay': google_overlay,
 		//'opendataonly': opendataonly,
 		'osm': osm,
 		'osmbase': osmbase,
