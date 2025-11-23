@@ -16,7 +16,6 @@
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="crossorigin="anonymous"></script>
     <script src="L.TileLayer.BetterWMS.js"></script>
-    <script src="leaflet-bing-layer.js"></script>
     <script src="leaflet-bng2geojson.js"></script>
     <script src="leaflet-fullHash.js"></script>
     <script src="Leaflet.fullscreen.js"></script>
@@ -54,11 +53,6 @@
 <body>
 <div id="map" style="width: 100%; height: 100%;"></div>
 <script>
-	//////////////////////////////////////////////////
-	// OBTAIN Bing Key from
-	var BING_KEY = 'AohFvM_FD-p0478UuVC3ErCaoLzkJH_ftz_gGnSB9iUW_15xRgnZEf4cVkptGa7G'; //My
-    //var BING_KEY = 'AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L'; //Plugin default
-    //////////////////////////////////////////////////
     var apiKey = 'AAPGGZnt29YGEZIJk7DAvy4vwHiUXDC7';
     var apiKeyVector = '8ZHfw8XcfS9fiUTxROr3MixGDTnqKm4U';
     var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
@@ -72,25 +66,6 @@
 	    attribution: '&copy; <a href="https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1" title ="EU-DEM v1.1 Copernicus Programme" target="_blank" >Copernicus</a> 2016',
 
     });
-	var aerial = L.tileLayer.bing({
-		bingMapsKey: BING_KEY,
-        imagerySet: 'Aerial',
-        culture: 'en_GB',
-        attribution: 'Bing Maps',
-	maxNativeZoom: 17
-	});
-	var aerialtransp = L.tileLayer.bing({
-		bingMapsKey: BING_KEY,
-        imagerySet: 'Aerial',
-        culture: 'en_GB',
-        opacity: 0.5,
-	maxNativeZoom: 17
-	});
-	var aerialWithLabels = L.tileLayer.bing({
-		bingMapsKey: BING_KEY,
-        imagerySet: 'AerialWithLabels',
-        culture: 'en_GB'
-	});
     var road = L.tileLayer(serviceUrl + '/Road_3857/{z}/{x}/{y}.png?key=' + apiKey, { maxNativeZoom:16, maxZoom: 18 });
     var road_overlay = L.tileLayer(serviceUrl + '/Road_3857/{z}/{x}/{y}.png?key=' + apiKey, { opacity:0.5, maxNativeZoom:16, maxZoom: 18 });
     var bgs50bed = L.tileLayer.betterWms('https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer', {
@@ -372,31 +347,6 @@
         minZoom: 4,
         maxZoom: 11
 	});
-	var bingosbase = L.tileLayer.bing({
-		bingMapsKey: BING_KEY,
-        imagerySet: 'OrdnanceSurvey',
-        culture: 'en_GB',
-        opacity: 1.0,
-        minZoom: 12,
-        maxNativeZoom: 17
-	});
-	var osbase = L.layerGroup([opendatabase, bingosbase]);	
-	var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
-		format: 'image/png',
-        transparent: true,
-        opacity: 0.5,
-        minZoom: 4,
-        maxZoom: 11
-	});
-	var bingos = L.tileLayer.bing({
-		bingMapsKey: BING_KEY,
-        imagerySet: 'OrdnanceSurvey',
-        culture: 'en_GB',
-        opacity: 0.5,
-        minZoom: 12,
-        maxNativeZoom: 17
-	});
-	var os = L.layerGroup([opendata, bingos]);
 	var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
 		format: 'image/png',
         transparent: true,
@@ -708,13 +658,9 @@
 		"<span title = 'Hillshade Digital Terrain Model'>Hillshade</span>": terraindtm,
 		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
 		"<span title = 'OS Open Data Road'>OS Road</span>": road,
-		"<span title = 'Bing Maps OS Current'>OS Current</span>": osbase,
-		"<span title = 'Bing Maps Aerial'>Aerial</span>": aerial,
 		"<span title = 'Blank'>Blank</span>": blank
 	};
 	var overlays = {
-		"<span title = 'Bing Maps Aerial'>Aerial</span>": aerialtransp,
-		"<span title = 'Bing Maps OS Current'>OS Current</span>": os,
 		"<span title = 'OS Open Data Road'>OS Road</span>": road_overlay,
 		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
 		"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
