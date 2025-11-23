@@ -205,7 +205,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         period2 = bedrock[1].split(";")[61];
         if (period1 == period2) {period = period1} else {period = period1 + ' to ' + period2};
         name = bedrock[1].split(";")[66];
-		//formation = bedrock[1].split(";")[74];
+		formation = bedrock[1].split(";")[74];
 		//group = bedrock[1].split(";")[76];
         type = bedrock[1].split(";")[62];
         if (type != '') {
@@ -371,9 +371,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 //	if (name == '') {name = ''; age = ''; per if (name != '') {name = 'Bedrock: ' + name};iod = ''};
 //	    
     if (name != '') {name = 'Bedrock: ' + name};
-	//if (formation != '') {formation = '<br/>Formation: ' + formarion};
+	if (formation != '') {formation = '<br/>Formation: ' + formation};
 	//if (group != '') {group = '<br/>Group: ' + group};
-	if (age != '') {age = '<br/>Age: ' + age}; 
+	if (age != '') {age = '<br/><br/>Age: ' + age}; 
 	if (period != '') {period = '<br/>Period: ' + period}; 
 	desc = bedrock[1].split(";")[63];
         if (desc != '') {
