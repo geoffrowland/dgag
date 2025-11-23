@@ -340,13 +340,13 @@
 		attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 		opacity: 0.5
 	});
-	var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
-		format: 'image/png',
-        transparent: true,
-        opacity: 0.5,
-        minZoom: 4,
-        maxZoom: 11
-	});
+	//var opendata = L.tileLayer('https://geo.nls.uk/maps/opendata/{z}/{x}/{y}.png', {
+	//	  format: 'image/png',
+    //    transparent: true,
+    //    opacity: 0.5,
+    //    minZoom: 4,
+    //    maxZoom: 11
+	//});
 	var dorset1 = L.tileLayer('https://geoffrowland.github.io/OS-First-Dorset-1/{z}/{x}/{y}.png', {
 		tms: true,
 		opacity: 0.5,
@@ -642,13 +642,13 @@
     });
     var baseLayers = {
 		"<span title = 'Hillshade Digital Terrain Model'>Hillshade</span>": terraindtm,
-		//"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
+		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road,
 		"<span title = 'Blank'>Blank</span>": blank
 	};
 	var overlays = {
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road_overlay,
-		//"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
+		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
 		"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
 		"<span title = 'OS Second Edition 25 inch ~1900'>OS Dorset ~1900</span>": dorset1900,
 		"<span title = 'BGS Geology Bedrock'>Geology Bedrock</span>": geobed,
@@ -666,8 +666,8 @@
 		'terraindtm': terraindtm,
 		'blank': blank,		
 		//'opendataonly': opendataonly,
-		//'osm': osm,
-		//'osmbase': osmbase,
+		'osm': osm,
+		'osmbase': osmbase,
 	    'dorset1880': dorset1880,
 		'dorset1900': dorset1900,
 		'aerialtransp': aerialtransp,
@@ -680,8 +680,8 @@
 		//'site': site,
 	    'drawnItems': drawnItems
 	};
-    var osmGeocoder = new L.Control.OSMGeocoder();
-    map.addControl(osmGeocoder);
+    //var osmGeocoder = new L.Control.OSMGeocoder();
+   // map.addControl(osmGeocoder);
     //L.Control.OSMGeocoder().addTo(map);
 	L.control.layers(baseLayers, overlays).addTo(map);
 	//var zoomHome = L.Control.zoomHome();
