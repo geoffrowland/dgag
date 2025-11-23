@@ -376,6 +376,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	if (formation != '') {formation = '<br/>' + formation};
 	if (subgroup != '') {subgroup = '<br/>' + subgroup};
 	if (group != '') {group = '<br/>' + group};
+		if (supergroup == 'No Parent') {supergroup = ''};
 	if (supergroup != '') {supergroup = '<br/>' + supergroup};
 	if (age != '') {age = '<br/><br/>Age: ' + age}; 
 	if (period != '') {period = '<br/>Period: ' + period}; 
