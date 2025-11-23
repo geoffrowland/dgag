@@ -642,22 +642,22 @@
     });
     var baseLayers = {
 		"<span title = 'Hillshade Digital Terrain Model'>Hillshade</span>": terraindtm,
-		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
+		//"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osmbase,
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road,
 		"<span title = 'Blank'>Blank</span>": blank
 	};
 	var overlays = {
 		//"<span title = 'OS Open Data Road'>OS Road</span>": road_overlay,
-		"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
-		"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
-		"<span title = 'OS Second Edition 25 inch ~1900'>OS Dorset ~1900</span>": dorset1900,
+		//"<span title = 'OpenStreetMap'>OpenStreetMap</span>": osm,
+		//"<span title = 'OS First Edition 25 inch ~1880'>OS Dorset ~1880</span>": dorset1880,
+		//"<span title = 'OS Second Edition 25 inch ~1900'>OS Dorset ~1900</span>": dorset1900,
 		"<span title = 'BGS Geology Bedrock'>Geology Bedrock</span>": geobed,
 		"<span title = 'BGS Geology Superficial'>Geology Surface</span>": geosup,
 		"<span title = 'BGS Geology Mass Movement'>Geology Landslip</span>": bgs50mass,
 		"<span title = 'BGS Geology Made Up Ground'>Geology Artificial</span>": bgs50art,
 		"<span title = 'BGS Geology Linear Features'>Geology Linear</span>": geolin,
-		"<span title = 'OS Contours'>Contours</span>": gl,
-		"<span title = 'OS Water'>Water</span>": gl1,
+		//"<span title = 'OS Contours'>Contours</span>": gl,
+		//"<span title = 'OS Water'>Water</span>": gl1,
 		"<span title = 'Parish outlines'>Parish</span>": parish,
 		//"<span title = 'Sites'>Site</span>": site,
 		"<span title = 'Drawing tools'>Draw</span>": drawnItems
@@ -666,11 +666,11 @@
 		'terraindtm': terraindtm,
 		'blank': blank,		
 		//'opendataonly': opendataonly,
-		'osm': osm,
-		'osmbase': osmbase,
-	    'dorset1880': dorset1880,
+		//'osm': osm,
+		//'osmbase': osmbase,
+	    //'dorset1880': dorset1880,
 		'dorset1900': dorset1900,
-		'aerialtransp': aerialtransp,
+		//'aerialtransp': aerialtransp,
 		'geobed': geobed,
 		'geosup': geosup,
 		'bgs50mass': bgs50mass,
@@ -686,12 +686,12 @@
 	L.control.layers(baseLayers, overlays).addTo(map);
 	//var zoomHome = L.Control.zoomHome();
     //zoomHome.addTo(map);
-	L.control.scale().addTo(map);
-    L.control.mousePosition({
-		lngFirst:true,
-		prefix:'Lng-Lat: ',
-		position:'bottomright'
-	}).addTo(map);
+	//L.control.scale().addTo(map);
+    //L.control.mousePosition({
+	//	lngFirst:true,
+	//	prefix:'Lng-Lat: ',
+	//	position:'bottomright'
+	//}).addTo(map);
 	//L.hash(map, allMapLayers);
 </script>
 </body>
