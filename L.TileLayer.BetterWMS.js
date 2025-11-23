@@ -197,8 +197,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
     bedrockcontent = '';
     bedrock = content.split('@BGS.50k.Bedrock');
     if (bedrock.length > 1) {   
-        age1 = bedrock[1].split(";")[31];
-        age2 = bedrock[1].split(";")[32];
+        age1 = bedrock[1].split(";")[53];
+        age2 = bedrock[1].split(";")[54];
         if (age1 == age2) {age = age1} else {age = age1 + ' to ' + age2};
         
         period1 = bedrock[1].split(";")[45];
