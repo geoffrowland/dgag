@@ -369,10 +369,13 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
         if (name == 'AYLESBEARE MUDSTONE GROUP - MUDSTONE') {name = name + '<br />NEW RED SANDSTONE SUPERGROUP'; age = 'CAPITANIAN TO WUCHIAPINGIAN'; period = 'PERMIAN'};
 	if (name == 'EXE BRECCIA FORMATION - BRECCIA') {name = name + '<br />EXETER GROUP<br />NEW RED SANDSTONE SUPERGROUP'; age = 'WORDIAN'; period = 'PERMIAN'};
 //	if (name == '') {name = ''; age = ''; per if (name != '') {name = 'Bedrock: ' + name};iod = ''};
-//	    
-    if (name != '') {name = 'Bedrock: ' + name};
-	if (formation != '') {formation = '<br/>Formation: ' + formation};
-	if (group != '') {group = '<br/>Group: ' + group};
+//
+    if (formation == name ) {formation = ''};
+	)
+    if (name != '') {name = name};
+		
+	if (formation != '') {formation = '<br/>' + formation};
+	if (group != '') {group = '<br/>' + group};
 	if (age != '') {age = '<br/><br/>Age: ' + age}; 
 	if (period != '') {period = '<br/>Period: ' + period}; 
 	desc = bedrock[1].split(";")[63];
