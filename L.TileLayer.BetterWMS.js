@@ -373,10 +373,15 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 //	if (name == '') {name = ''; age = ''; per if (name != '') {name = 'Bedrock: ' + name};iod = ''};
 //
     if (formation == name ) {formation = ''};
+	if (formation == 'Not Applicable' ) {formation = ''};
 	if (formation != '') {formation = '<br/>' + formation};
+	if (subgroup == name ) {subgroup = ''};
+	if (subgroup == 'Not Applicable') {subgroup = ''};
 	if (subgroup == 'No Parent') {subgroup = ''};
 	if (subgroup != '') {subgroup = '<br/>' + subgroup};
+	if (group == name ) {group = ''};	
 	if (group != '') {group = '<br/>' + group};
+	if (supergroup == 'Not Applicable') {supergroup = ''};		
 	if (supergroup == 'No Parent') {supergroup = ''};
 	if (supergroup != '') {supergroup = '<br/>' + supergroup};
 	if (age != '') {age = '<br/><br/>Age: ' + age}; 
